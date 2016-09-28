@@ -43,22 +43,23 @@ CHIP ALU {
 
     PARTS:
     // x
-    Mux16(a=x,b=false,sel=zx,out=xzx);
-    Not16(in=xzx,out=nxzx);
-    Mux16(a=xzx,b=nxzx,sel=nx,out=mxzx);
-    
-    // y
-    Mux16(a=y,b=false,sel=zy,out=yzy);
-    Not16(in=yzy,out=nyzy);
-    Mux16(a=yzy,b=nyzy,sel=ny,out=myzy);
-
-    Add16(a=mxzx,b=myzy,out=xpy);
-    And16(a=mxzx,b=myzy,out=xay);
-    Mux16(a=xpy,b=xay,sel=f,out=mxpyxay);
-    Not16(in=mxpyxay,out=nmxpyxay);
-    Mux16(a=mxpyxay,b=nmxpyxay,sel=no,out=out,out[0..7]=orina,out[8..15]=orinb,out[15]=ng);
-    Or8Way(in=orina,out=aniro);
-    Or8Way(in=orinb,out=bniro);
-    Or(a=aniro,b=bniro,out=orzr);
-    Not(in=orzr,out=zr);
+    Mux16(a=x, b=false, sel=zx, out=muxzx);
+	Not16(in=muxzx, out=notmuxzx);
+	Mux16(a=muxzx, b=notmuxzx, sel=nx, out=muxnx);
+	
+	// y
+	Mux16(a=y, b=false, sel=zy, out=muxzy);
+	Not16(in=muxzy, out=notmuxzy);
+	Mux16(a=muxzy, b=notmuxzy, sel=ny, out=muxny);
+	
+	
+	And16(a=muxnx, b=muxny, out=andnxny);
+	Add16(a=muxnx, b=muxny, out=plusnxny);
+	Mux16(a=andnxny, b=plusnxny, sel=f, out=muxf);
+	Not16(in=muxf, out=notmuxf);
+	Mux16(a=muxf, b=notmuxf, sel=no, out[15]=ng, out[0..7]=orina, out[8..15]=orinb, out=out);
+	Or8Way(in=orina, out=ora);
+	Or8Way(in=orinb, out=orb);
+	Or(a=ora, b=orb, out=orout);
+	Not(in=orout, out=zr);
 }
