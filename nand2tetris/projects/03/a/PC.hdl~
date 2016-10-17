@@ -17,9 +17,5 @@ CHIP PC {
 
     PARTS:
 	Or3Way(a=reset, b=load, c=inc, out=orout);
-	Not(in=load,out=notload);
-	Mux16(a=in, b=inc16out, sel=notload, out=muxout);
-	Mux16(a=muxout, b=false, sel=reset, out=regin);
-	Register(in=regin, load=orout, out=out, out=inc16in);
-	Inc16(in=inc16in, out=inc16out);
+
 }
