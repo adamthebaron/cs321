@@ -16,7 +16,7 @@
 	D=M
 	@R0
 	D=D-M //subtract # of times number needs to be added
-	@END
+	@ASSIGN
 	D;JGT	//place correct jmp
 	@R1
 	D=M
@@ -26,8 +26,11 @@
 	M=M+1
 	@LOOP
 	0;JMP
-(END)
+(ASSIGN)
 	@sum
 	D=M
 	@R2
 	M=D
+(END)
+	@END
+	0;JMP
